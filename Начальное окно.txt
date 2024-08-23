@@ -1,0 +1,22 @@
+import pygame
+
+pygame.init()  #инициализация класса pygame
+
+screen = pygame.display.set_mode((600, 300))  #устонавливаем размер
+pygame.display.set_caption("Моя игра")
+icon = pygame.image.load('image/avatar.jpeg')
+pygame.display.set_icon(icon)
+screen.fill((37, 150, 190))  #цвет заднего фона
+
+running = True
+while running:
+    for event in pygame.event.get():  #цикл, который делает прокрут на все возможные события в pygame
+
+        pygame.display.update()
+
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                screen.fill((135, 62, 35))
