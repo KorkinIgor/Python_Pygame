@@ -1,0 +1,32 @@
+import pygame
+
+pygame.init()
+
+screen = pygame.display.set_mode((600, 300))
+pygame.display.set_caption("Моя игра")
+icon = pygame.image.load('image/avatar.jpeg')
+pygame.display.set_icon(icon)
+screen.fill((37, 150, 190))
+
+
+cube = pygame.Surface((50, 50))
+cube.fill("Red")
+
+myfont = pygame.font.Font("Fonts/Kosmos.otf", 40)
+text_surface = myfont.render("Привет", True, "Black")
+
+running = True
+
+while running:
+    pygame.draw.circle(screen, "Green", (100, 70), 50)
+    screen.blit(cube, (0, 0))
+    screen.blit(text_surface, (100, 100))
+
+    for event in pygame.event.get():
+        pygame.display.update()
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                screen.fill((135, 62, 35))
