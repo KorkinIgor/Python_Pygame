@@ -1,0 +1,51 @@
+import pygame
+import time
+
+pygame.init()
+
+screen = pygame.display.set_mode((1280, 720))
+pygame.display.set_caption("Моя игра")
+
+icon = pygame.image.load('image/avatar.jpeg')
+pygame.display.set_icon(icon)
+
+screen.fill((37, 150, 190))
+
+bg = pygame.image.load('image/bgf.jpg')
+
+
+walk = [
+    pygame.image.load('image/pl1.png'),
+    pygame.image.load('image/pl2.png'),
+    pygame.image.load('image/pl3.png')
+]
+
+player_count = 0
+bg_x = 0
+running = True
+
+bg_sound = pygame.mixer.Sound('Audio/aud.mp3')
+
+while running:
+
+    screen.blit(bg, (bg_x, 0))
+    screen.blit(bg, (bg_x + 1280, 0))
+    screen.blit(walk[player_count], (100, 450))
+
+    if player_count == 2:
+        player_count = 0
+    else:
+        time.sleep(0.5)
+        player_count += 1
+
+    bg_x -= 20
+
+    if bg_x == -1280:
+        bg_x = 0
+
+    pygame.display.update()
+    for event in pygame.event.get():
+
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            running = False
