@@ -1,0 +1,137 @@
+import pygame
+import pyautogui
+
+pygame.init()  #инициализация класса pygame
+
+screen = pygame.display.set_mode((600, 600))  #устонавливаем размер
+pygame.display.set_caption("Моя игра")
+screen.fill((37, 150, 190))  #цвет заднего фона
+
+#координаты
+upper_left_x = [x for x in range(660, 861)]
+upper_left_y = [x for x in range(240, 441)]
+is_cell_upper_left = True
+
+upper_central_x = [x for x in range(861, 1061)]
+upper_central_y = [x for x in range(240, 441)]
+is_cell_upper_central = True
+
+upper_right_x = [x for x in range(1061, 1261)]
+upper_right_y = [x for x in range(240, 441)]
+is_cell_upper_right = True
+
+middle_left_x = [x for x in range(660, 861)]
+middle_left_y = [x for x in range(441, 641)]
+is_cell_middle_left = True
+
+middle_central_x = [x for x in range(861, 1061)]
+middle_central_y = [x for x in range(441, 641)]
+is_cell_middle_central = True
+
+middle_right_x = [x for x in range(1061, 1261)]
+middle_right_y = [x for x in range(441, 641)]
+is_cell_middle_right = True
+
+lower_left_x = [x for x in range(660, 861)]
+lower_left_y = [x for x in range(641, 841)]
+is_cell_lower_left = True
+
+lower_central_x = [x for x in range(861, 1061)]
+lower_central_y = [x for x in range(641, 841)]
+is_cell_lower_central = True
+
+lower_right_x = [x for x in range(1061, 1261)]
+lower_right_y = [x for x in range(641, 841)]
+is_cell_lower_right = True
+
+#поля
+is_white_move = True
+
+running = True
+while running:
+    pygame.draw.line(screen, "Black", (200, 0), (200, 600))
+    pygame.draw.line(screen, "Black", (400, 0), (400, 600))
+    pygame.draw.line(screen, "Black", (0, 200), (600, 200))
+    pygame.draw.line(screen, "Black", (0, 400), (600, 400))
+
+    for event in pygame.event.get():  #цикл, который делает прокрут на все возможные события в pygame
+        pygame.display.update()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pos = pyautogui.position()
+
+            if pos.x in upper_left_x and pos.y in upper_left_y and is_cell_upper_left:
+                is_cell_upper_left = False
+                if is_white_move:
+                    pygame.draw.circle(screen, "White", (100, 100), 100)
+                    is_white_move = False
+                else:
+                    pygame.draw.circle(screen, "Black", (100, 100), 100)
+                    is_white_move = True
+            elif pos.x in upper_central_x and pos.y in upper_central_y and is_cell_upper_central:
+                is_cell_upper_central = False
+                if is_white_move:
+                    pygame.draw.circle(screen, "White", (300, 100), 100)
+                    is_white_move = False
+                else:
+                    pygame.draw.circle(screen, "Black", (300, 100), 100)
+                    is_white_move = True
+            elif pos.x in upper_right_x and pos.y in upper_right_y and is_cell_upper_right:
+                is_cell_upper_right = False
+                if is_white_move:
+                    pygame.draw.circle(screen, "White", (500, 100), 100)
+                    is_white_move = False
+                else:
+                    pygame.draw.circle(screen, "Black", (500, 100), 100)
+                    is_white_move = True
+            elif pos.x in middle_left_x and pos.y in middle_left_y and is_cell_middle_left:
+                is_cell_middle_left = False
+                if is_white_move:
+                    pygame.draw.circle(screen, "White", (100, 300), 100)
+                    is_white_move = False
+                else:
+                    pygame.draw.circle(screen, "Black", (100, 300), 100)
+                    is_white_move = True
+            elif pos.x in middle_central_x and pos.y in middle_central_y and is_cell_middle_central:
+                is_cell_middle_central = False
+                if is_white_move:
+                    pygame.draw.circle(screen, "White", (300, 300), 100)
+                    is_white_move = False
+                else:
+                    pygame.draw.circle(screen, "Black", (300, 300), 100)
+                    is_white_move = True
+            elif pos.x in middle_right_x and pos.y in middle_right_y and is_cell_middle_right:
+                is_cell_middle_right = False
+                if is_white_move:
+                    pygame.draw.circle(screen, "White", (500, 300), 100)
+                    is_white_move = False
+                else:
+                    pygame.draw.circle(screen, "Black", (500, 300), 100)
+                    is_white_move = True
+            elif pos.x in lower_left_x and pos.y in lower_left_y and is_cell_lower_left:
+                is_cell_lower_left = False
+                if is_white_move:
+                    pygame.draw.circle(screen, "White", (100, 500), 100)
+                    is_white_move = False
+                else:
+                    pygame.draw.circle(screen, "Black", (100, 500), 100)
+                    is_white_move = True
+            elif pos.x in lower_central_x and pos.y in lower_central_y and is_cell_lower_central:
+                is_cell_lower_central = False
+                if is_white_move:
+                    pygame.draw.circle(screen, "White", (300, 500), 100)
+                    is_white_move = False
+                else:
+                    pygame.draw.circle(screen, "Black", (300, 500), 100)
+                    is_white_move = True
+            elif pos.x in lower_right_x and pos.y in lower_right_y and is_cell_lower_right:
+                is_cell_lower_right = False
+                if is_white_move:
+                    pygame.draw.circle(screen, "White", (500, 500), 100)
+                    is_white_move = False
+                else:
+                    pygame.draw.circle(screen, "Black", (500, 500), 100)
+                    is_white_move = True
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            running = False
