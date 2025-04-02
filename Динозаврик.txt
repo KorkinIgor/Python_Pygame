@@ -1,0 +1,106 @@
+import time
+
+import pygame
+import random
+
+# Инициализация Pygame
+pygame.init()
+
+# Константы
+WIDTH, HEIGHT = 800, 400
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+dino = pygame.image.load("./image/unnamed-Photoroom.png")
+# Настройки экрана
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Dinosaur Game")   
+
+# Класс для динозавра
+class Dinosaur:
+    def __init__(self):
+        self.x = 200
+        self.y = HEIGHT - 60
+        self.width = 40
+        self.height = 40
+        self.jump_count = 10
+        self.is_jumping = False
+
+    def draw(self):
+        screen.blit(dino, (self.x, self.y, self.width, self.height))
+
+    def jump(self):
+        if self.is_jumping:
+            if self.jump_count >= -10:
+                neg = 1 if self.jump_count >= 0 else -1
+                self.y -= (self.jump_count ** 2) * 0.5 * neg
+                self.jump_count -= 1
+            else:
+                self.is_jumping = False
+                self.jump_count = 10
+
+# Класс для препятствий
+class Cactus:
+    def __init__(self):
+        self.x = WIDTH
+        self.y = HEIGHT - 60
+        self.width = 20
+        self.height = 40
+
+    def draw(self):
+        pygame.draw.rect(screen, GREEN, (self.x, self.y, self.width, self.height))
+
+    def move(self):
+        self.x -= 5
+
+def main():
+    clock = pygame.time.Clock()
+    dinosaur = Dinosaur()
+    cacti = []
+    score = 0
+
+    run = True
+    while run:
+        clock.tick(30)
+        screen.fill(WHITE)
+
+        # Обработка событий
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and not dinosaur.is_jumping:
+                    dinosaur.is_jumping = True
+
+        # Добавление препятствий
+        if random.randint(1, 100) < 2: # вероятность появления кактуса
+            cacti.append(Cactus())
+
+        # Движение и отрисовка кактусов
+        for cactus in cacti:
+            cactus.move()
+            cactus.draw()
+            if cactus.x < dinosaur.x + dinosaur.width and cactus.x + cactus.width > dinosaur.x and \
+               cactus.y < dinosaur.y + dinosaur.height and cactus.y + cactus.height > dinosaur.y:
+                run = False # Конец игры при столкновении
+
+            if cactus.x < -cactus.width: # Удаление кактусов за пределами экрана
+                cacti.remove(cactus)
+                score += 1
+
+        # Движение и отрисовка динозавра
+        dinosaur.jump()
+        dinosaur.draw()
+
+        # Отображение счета на экране
+        font = pygame.font.SysFont('Arial', 30)
+        text_surface = font.render(f'Score: {score}', True, BLACK)
+        screen.blit(text_surface, (10, 10))
+
+        pygame.display.update()
+
+    pygame.quit()
+
+
+main()
