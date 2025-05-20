@@ -1,0 +1,77 @@
+import pygame
+import sys
+
+# Размеры окна и клетки
+CELL_SIZE = 40
+WIDTH, HEIGHT = 640, 480
+
+# Цвета
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+
+# Простая карта лабиринта (1 — стена, 0 — путь)
+maze = [
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1],
+    [1,0,1,0,1,0,1,1,1,1,0,1,0,1,0,1],
+    [1,0,1,0,0,0,1,0,0,1,0,0,0,1,0,1],
+    [1,0,1,1,1,1,1,0,1,1,1,1,1,1,0,1],
+    [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+]
+
+# Игрок
+player_pos = [1, 1]
+
+# Инициализация Pygame
+pygame.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Maze Game")
+clock = pygame.time.Clock()
+
+def draw_maze():
+    for y, row in enumerate(maze):
+        for x, cell in enumerate(row):
+            rect = pygame.Rect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            if cell == 1:
+                pygame.draw.rect(screen, BLACK, rect)
+            else:
+                pygame.draw.rect(screen, WHITE, rect)
+
+def draw_player():
+    x, y = player_pos
+    rect = pygame.Rect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE)
+    pygame.draw.rect(screen, BLUE, rect)
+
+# Главный цикл
+while True:
+    screen.fill(WHITE)
+    draw_maze()
+    draw_player()
+    pygame.display.flip()
+    clock.tick(10)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    # Управление
+    keys = pygame.key.get_pressed()
+    dx, dy = 0, 0
+    if keys[pygame.K_LEFT]:
+        dx = -1
+    elif keys[pygame.K_RIGHT]:
+        dx = 1
+    elif keys[pygame.K_UP]:
+        dy = -1
+    elif keys[pygame.K_DOWN]:
+        dy = 1
+
+    new_x = player_pos[0] + dx
+    new_y = player_pos[1] + dy
+    if 0 <= new_y < len(maze) and 0 <= new_x < len(maze[0]):
+        if maze[new_y][new_x] == 0:
+            player_pos = [new_x, new_y]
